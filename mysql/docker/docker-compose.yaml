@@ -1,0 +1,31 @@
+version: '3.7'  #vesión docker compose
+services: #configuración del servicio
+  mysql:
+    build:  #construcción
+      context: .  #contexto actual
+      dockerfile: Dockerfile #nombre
+    conteiner_name: mysql #nombre del conteiner
+    restart: always #si se reinicia el servidor, el contenedor se inicia automaticamente
+    ports:
+      - 3306:3306 #lo muentra en el puerto 3306 que apunta al puesto interno 3306
+    environment:  #variable de entorno
+      MYSQL_ROOT_PASSWORD: "Giselle2023+" #contraseña
+      MYSQL_DATABASE: "prueba"  #inicia el compose con una base de datos creada (opcional)
+      MYSQL_USER: "userdb"  #se crea un uusuario totalmente nuevo ya que si no tendrian total control de los datos de mi perfil (opcional)
+      MYSQL_PASSWORD: "user_prueba" #contraseña para este nuevo usuario (opcional)
+    volumes:
+      - ./schemas:/var/lib/mysql:rw #en esta misma instancia, el reflejo de mysql en el contenedor, "rw" se usa para dar permisos de escritura y lectura
+    networks: #red a utilizar
+      mysql_network:
+        aliases:
+          - mysql_host
+volumes:  #confirmar los volumes
+  schemas: {} 
+networks:   #conexion de la red
+  mysql_network:
+    name: mysql_net
+    driver: bridge
+
+
+
+    
